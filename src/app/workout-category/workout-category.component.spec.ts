@@ -1,5 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { categoryService } from '../service/categoryService';
+import { MockBackend } from '@angular/http/testing';
+import { Category } from '../model/category';
+import { async, ComponentFixture, TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
 import { WorkoutCategoryComponent } from './workout-category.component';
 
 describe('WorkoutCategoryComponent', () => {
@@ -8,7 +10,8 @@ describe('WorkoutCategoryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WorkoutCategoryComponent ]
+      declarations: 
+      [ WorkoutCategoryComponent ]
     })
     .compileComponents();
   }));
@@ -22,4 +25,59 @@ describe('WorkoutCategoryComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+it('should retrieve single record',
+
+inject([categoryService,
+MockBackend], 
+
+fakeAsync((categoryService:
+categoryService, mockBackend:
+MockBackend) => {
+
+let res:
+Category[]; 
+
+categoryService.getAll().subscribe((response)=> {
+res = response;
+
+});
+
+tick();
+
+expect(res[0].CategoryName).toBe('Jogging');
+
+}))
+
+);
+
+
+
+it('should retrieve record count',
+
+inject([categoryService,
+MockBackend], 
+
+fakeAsync((categoryService:
+categoryService, mockBackend:
+MockBackend) => {
+
+let res:
+Category[]; 
+
+categoryService.getAll().subscribe((response)=> {
+
+res = response;
+
+});
+
+tick();
+
+expect(res.length).toEqual(4);
+
+}))
+
+);
+
+
 });
